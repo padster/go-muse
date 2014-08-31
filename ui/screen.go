@@ -12,14 +12,14 @@ import (
 )
 
 type Screen struct {
-	width int
+	width  int
 	height int
 	buffer *util.Buffer
 }
 
 // NewScreen creates a new output screen of a given size.
 func NewScreen(width int, height int) *Screen {
-	s := Screen {
+	s := Screen{
 		width,
 		height,
 		util.NewBuffer(width),
@@ -72,8 +72,8 @@ func (s *Screen) Render(values <-chan float64, sampleRate int) {
 // drawSignal writes the input wave form(s) out to screen.
 func (s *Screen) drawSignal() {
 	gl.Begin(gl.LINE_STRIP)
-		s.buffer.Each(func(index int, value float64) {
-			gl.Vertex2d(float64(index), value)
-		})
+	s.buffer.Each(func(index int, value float64) {
+		gl.Vertex2d(float64(index), value)
+	})
 	gl.End()
 }

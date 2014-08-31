@@ -6,20 +6,20 @@ import (
 )
 
 type Buffer struct {
-	values []float64
+	values   []float64
 	capacity int
-	size int
-	at int
-	lock sync.Mutex
+	size     int
+	at       int
+	lock     sync.Mutex
 }
 
 // NewBuffer creates a new circular buffer of a given maximum size.
 func NewBuffer(capacity int) *Buffer {
-	b := Buffer {
+	b := Buffer{
 		make([]float64, capacity),
 		capacity,
-		0 /* size */,
-		0 /* at */,
+		0, /* size */
+		0, /* at */
 		sync.Mutex{},
 	}
 	return &b
@@ -29,10 +29,10 @@ func NewBuffer(capacity int) *Buffer {
 func (b *Buffer) Push(value float64) {
 	b.lock.Lock()
 	b.values[b.at] = value
-	if (b.size < b.capacity) {
+	if b.size < b.capacity {
 		b.size++
 	}
-	if (b.at + 1 < b.capacity) {
+	if b.at+1 < b.capacity {
 		b.at = b.at + 1
 	} else {
 		b.at = 0
@@ -43,7 +43,8 @@ func (b *Buffer) Push(value float64) {
 // GoPushChannel constantly pushes values from a channel, in a separate thread,
 // optionally only sampling 1 every sampleRate values.
 func (b *Buffer) GoPushChannel(values <-chan float64, sampleRate int) {
-	val := 0.0; ok := true
+	val := 0.0
+	ok := true
 	go func() {
 		for {
 			if val, ok = <-values; !ok {
@@ -56,7 +57,7 @@ func (b *Buffer) GoPushChannel(values <-chan float64, sampleRate int) {
 				}
 			}
 		}
-    }()
+	}()
 }
 
 // GetFromEnd returns the most recent buffer values.
@@ -67,7 +68,7 @@ func (b *Buffer) GetFromEnd(index int) float64 {
 		panic("GetFromEnd index out of range")
 	}
 	index = b.at - index
-	if (index < 0) {
+	if index < 0 {
 		index = index + b.capacity
 	}
 	result := b.values[index]
@@ -86,7 +87,7 @@ func (b *Buffer) IsFull() bool {
 func (b *Buffer) Each(cb func(int, float64)) {
 	b.lock.Lock()
 	i := 0
-	if (!b.IsFull()) {
+	if !b.IsFull() {
 		for i = 0; i < b.size; i++ {
 			cb(i, b.values[i])
 		}
