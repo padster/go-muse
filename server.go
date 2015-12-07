@@ -1,8 +1,8 @@
-
 package main
 
-// To get the muse device to stream to port 5000:
-// muse-io.exe --device Muse --osc osc.udp://localhost:5000
+// I've named my bluetooth device 'Muse', so to get the muse device 
+// to stream to port 5000, I use:
+//   muse-io.exe --device Muse --osc osc.udp://localhost:5000
 
 import (
 	"fmt"
