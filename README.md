@@ -23,7 +23,7 @@ each time a blink is detected, do the following:
    * `muse-io.exe --device Muse --osc osc.udp://localhost:5000`
 2. Run the server (example is using windows):
    * `go build server.go && server.exe`
-3. Open [http://localhost:8888/file/viz.html] in a browser.
+3. Open [http://localhost:8888/file/viz.html](http://localhost:8888/file/viz.html) in a browser.
 
 Note that these can all be done independently (e.g. to reconnect your Muse, to make changes to the server, or to reset the html state) although restarting the server tends to require a browser refresh too.
 
